@@ -24,7 +24,7 @@ def calculate_euler_number(nx_graph):
     return euler_number
 
 
-def write_csv(data, output='results.csv'):
+def write_csv(data, output):
     with open(output, 'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         csvwriter.writerow(['Euler Number', data])
@@ -33,19 +33,16 @@ def write_csv(data, output='results.csv'):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Returns the euler number of a .dot graph')
     parser.add_argument('input_file', action='store', type=str, help='.dot file to analyze')
-    parser.add_argument('-o', '--output_file', action='store', type=str, required=False, help='Name of output file')
+    parser.add_argument('-o', '--output_file', action='store', type=str, required=False, default='results.csv',
+                        help='Name of output file')
 
     args = parser.parse_args()
 
     input_file = args.input_file
     output_file = args.output_file
 
-
     graph = read_graph(input_file)
 
     euler = calculate_euler_number(graph)
 
-    if output_file:
-        write_csv(euler, output_file)
-    else:
-        write_csv(euler)
+    write_csv(euler, output_file)
